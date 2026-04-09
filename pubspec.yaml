@@ -36,11 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   animate_do: 
   flutter_native_splash: 
+  equatable: ^2.0.8
   flutter_svg: 
+  audioplayers: ^6.6.0
   google_fonts: 
+  http: ^1.6.0
   shared_preferences: 
   carousel_slider: 
   custom_sliding_segmented_control: 
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:

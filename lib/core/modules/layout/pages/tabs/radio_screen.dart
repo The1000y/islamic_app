@@ -1,5 +1,8 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
+import 'package:islami/api/api_manager.dart';
+
+import 'package:islami/core/model/radio_data_model/radio_data_model.dart';
 import 'package:islami/core/themes/colors.dart';
 
 class RadioScreen extends StatefulWidget {
@@ -143,30 +146,54 @@ class _RadioScreenState extends State<RadioScreen> {
   }
 }
 
-class RadioWidget extends StatelessWidget {
+class RadioWidget extends StatefulWidget {
   const RadioWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List dataRadioWidget = [
-      'Radio Ibrahim Al-Akdar',
-      'Radio Ahmed Al-trabulsi',
-      'Radio Addokali Mohammad Alalim',
-      'Radio Al-Qaria Yassen',
-    ];
+  State<RadioWidget> createState() => _RadioWidgetState();
+}
 
-    return ListView.builder(
-      // shrinkWrap: true,
-      // physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            CustomCadRadio(text: dataRadioWidget[index]),
-            SizedBox(height: 12),
-          ],
-        );
+class _RadioWidgetState extends State<RadioWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<RadioDataModel>(
+      future: ApiManager.getRadioData(),
+      builder: (context, snapshot) {
+        var data = snapshot.data;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Column(
+            children: [
+              Text(snapshot.error.toString()),
+              TextButton(
+                onPressed: () {
+                  ApiManager.getRadioData();
+                  setState(() {});
+                },
+                child: Text('Refresh'),
+              ),
+            ],
+          );
+        } else {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CustomCadRadio(
+                    onpressedMute: () {},
+
+                    onpressed: () {},
+                    text: data?.radios?[index].name ?? '',
+                  ),
+                  SizedBox(height: 12),
+                ],
+              );
+            },
+            itemCount: data?.radios?.length ?? 0,
+          );
+        }
       },
-      itemCount: dataRadioWidget.length,
     );
 
     // return Column(
@@ -221,6 +248,8 @@ class CustomCadRadio extends StatefulWidget {
   CustomCadRadio({
     super.key,
     required this.text,
+    this.onpressed,
+    this.onpressedMute,
 
     this.icon1 = 'assets/images/Polygon 2.png',
     this.icon2 = 'assets/images/Volume High.png',
@@ -239,6 +268,8 @@ class CustomCadRadio extends StatefulWidget {
   final String icon2;
   final String icon3;
   final String icon4;
+  VoidCallback? onpressed;
+  VoidCallback? onpressedMute;
   bool isPlay;
   bool ismute;
 
@@ -259,7 +290,6 @@ class _CustomCadRadioState extends State<CustomCadRadio> {
         color: AppColors.goldColor,
         image: DecorationImage(
           scale: 2,
-
           opacity: 0.4,
           alignment: Alignment(0, 1),
           image: widget.isPlay
@@ -280,8 +310,10 @@ class _CustomCadRadioState extends State<CustomCadRadio> {
             children: [
               IconButton(
                 onPressed: () {
-                  widget.isPlay = !widget.isPlay;
-                  setState(() {});
+                  setState(() {
+                    widget.isPlay = !widget.isPlay;
+                  });
+                  widget.onpressed?.call();
                 },
                 icon: widget.isPlay
                     ? Image.asset(widget.icon4)
@@ -290,12 +322,14 @@ class _CustomCadRadioState extends State<CustomCadRadio> {
 
               IconButton(
                 onPressed: () {
-                  widget.ismute = !widget.ismute;
-                  setState(() {});
+                  setState(() {
+                    widget.ismute = !widget.ismute;
+                  });
+                  widget.onpressedMute?.call();
                 },
                 icon: widget.ismute
-                    ? Image.asset(widget.icon2)
-                    : Image.asset(widget.icon3),
+                    ? Image.asset(widget.icon3)
+                    : Image.asset(widget.icon2),
               ),
             ],
           ),

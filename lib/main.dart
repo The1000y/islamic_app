@@ -7,7 +7,7 @@ import 'package:islami/core/modules/sora_details/pages/sura_details_screen.dart'
 import 'package:islami/core/modules/splash/screen/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
