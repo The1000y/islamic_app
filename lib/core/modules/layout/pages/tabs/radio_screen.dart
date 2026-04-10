@@ -4,6 +4,8 @@ import 'package:islami/api/api_manager.dart';
 
 import 'package:islami/core/model/radio_data_model/radio_data_model.dart';
 import 'package:islami/core/themes/colors.dart';
+import 'package:islami/provider/radio_manager_provider.dart';
+import 'package:provider/provider.dart';
 
 class RadioScreen extends StatefulWidget {
   const RadioScreen({super.key});
@@ -154,10 +156,17 @@ class RadioWidget extends StatefulWidget {
 }
 
 class _RadioWidgetState extends State<RadioWidget> {
+  late Future<RadioDataModel> futureData;
+  @override
+  void initState() {
+    futureData = ApiManager.getRadioData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<RadioDataModel>(
-      future: ApiManager.getRadioData(),
+      future: futureData,
       builder: (context, snapshot) {
         var data = snapshot.data;
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -181,16 +190,15 @@ class _RadioWidgetState extends State<RadioWidget> {
               return Column(
                 children: [
                   CustomCadRadio(
-                    onpressedMute: () {},
+                    url: data.radios?[index].url ?? '',
 
-                    onpressed: () {},
-                    text: data?.radios?[index].name ?? '',
+                    text: data.radios?[index].name ?? '',
                   ),
                   SizedBox(height: 12),
                 ],
               );
             },
-            itemCount: data?.radios?.length ?? 0,
+            itemCount: data!.radios?.length ?? 0,
           );
         }
       },
@@ -233,7 +241,7 @@ class ResiterWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return Column(
           children: [
-            CustomCadRadio(text: dataResiterWidget[index]),
+            CustomCadRadio(text: dataResiterWidget[index], url: ''),
             SizedBox(height: 12),
           ],
         );
@@ -244,19 +252,17 @@ class ResiterWidget extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class CustomCadRadio extends StatefulWidget {
-  CustomCadRadio({
+class CustomCadRadio extends StatelessWidget {
+  const CustomCadRadio({
     super.key,
     required this.text,
-    this.onpressed,
-    this.onpressedMute,
+    required this.url,
 
     this.icon1 = 'assets/images/Polygon 2.png',
     this.icon2 = 'assets/images/Volume High.png',
     this.icon3 = 'assets/images/Volume Cross.png',
     this.icon4 = 'assets/images/Pause.png',
-    this.isPlay = false,
-    this.ismute = false,
+
     this.imageSound = 'assets/images/soundWave 1.png',
     this.imageMosque = 'assets/images/Mosque-02.png',
   });
@@ -268,74 +274,67 @@ class CustomCadRadio extends StatefulWidget {
   final String icon2;
   final String icon3;
   final String icon4;
-  VoidCallback? onpressed;
-  VoidCallback? onpressedMute;
-  bool isPlay;
-  bool ismute;
+  final String url;
 
-  @override
-  State<CustomCadRadio> createState() => _CustomCadRadioState();
-}
-
-class _CustomCadRadioState extends State<CustomCadRadio> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
-      width: double.infinity,
-      height: 150,
+    return Consumer<RadioManagerProvider>(
+      builder: (context, provider, child) {
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 12),
+          width: double.infinity,
+          height: 150,
 
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: AppColors.goldColor,
-        image: DecorationImage(
-          scale: 2,
-          opacity: 0.4,
-          alignment: Alignment(0, 1),
-          image: widget.isPlay
-              ? AssetImage(widget.imageSound)
-              : AssetImage(widget.imageMosque),
-        ),
-      ),
-      child: Column(
-        children: [
-          Spacer(),
-          Text(
-            widget.text,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColors.goldColor,
+            image: DecorationImage(
+              scale: 2,
+              opacity: 0.4,
+              alignment: Alignment(0, 1),
+              image: provider.currentPlayingRadio == url && provider.isplaying
+                  ? AssetImage(imageSound)
+                  : AssetImage(imageMosque),
+            ),
           ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
             children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    widget.isPlay = !widget.isPlay;
-                  });
-                  widget.onpressed?.call();
-                },
-                icon: widget.isPlay
-                    ? Image.asset(widget.icon4)
-                    : Image.asset(widget.icon1),
+              Spacer(),
+              Text(
+                text,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
               ),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      provider.play(url);
+                    },
+                    icon:
+                        provider.currentPlayingRadio == url &&
+                            provider.isplaying
+                        ? Image.asset(icon4)
+                        : Image.asset(icon1),
+                  ),
 
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    widget.ismute = !widget.ismute;
-                  });
-                  widget.onpressedMute?.call();
-                },
-                icon: widget.ismute
-                    ? Image.asset(widget.icon3)
-                    : Image.asset(widget.icon2),
+                  IconButton(
+                    onPressed: () {
+                      provider.mute();
+                    },
+                    icon:
+                        provider.currentPlayingRadio == url && provider.isMusted
+                        ? Image.asset(icon3)
+                        : Image.asset(icon2),
+                  ),
+                ],
               ),
+              Spacer(),
             ],
           ),
-          Spacer(),
-        ],
-      ),
+        );
+      },
     );
   }
 }

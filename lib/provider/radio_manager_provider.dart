@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class RadioManagerProvider extends ChangeNotifier {
   String? currentPlayingRadio;
   bool isplaying = false;
+  bool isMusted = false;
   AudioPlayer player = AudioPlayer();
 
   Future<void> play(String url) async {
@@ -26,7 +27,12 @@ class RadioManagerProvider extends ChangeNotifier {
   }
 
   Future<void> mute() async {
-    await player.setVolume(0);
+    if (isMusted) {
+      await player.setVolume(0.5);
+    } else {
+      await player.setVolume(0);
+    }
+    isMusted = !isMusted;
     notifyListeners();
   }
 }

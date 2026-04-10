@@ -45,6 +45,7 @@ dependencies:
   carousel_slider: 
   custom_sliding_segmented_control: 
   provider: ^6.1.5+1
+  just_audio: ^0.10.5
 
 dev_dependencies:
   flutter_test:

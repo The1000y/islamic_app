@@ -5,9 +5,16 @@ import 'package:islami/core/modules/intro/screen/intro_screen.dart';
 import 'package:islami/core/modules/layout/pages/layout_screen.dart';
 import 'package:islami/core/modules/sora_details/pages/sura_details_screen.dart';
 import 'package:islami/core/modules/splash/screen/splash_screen.dart';
+import 'package:islami/provider/radio_manager_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => RadioManagerProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
