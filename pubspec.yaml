@@ -75,6 +75,7 @@ flutter:
     - assets/svg/
     - assets/suras/
     - assets/hadeeth/
+    - assets/azkar/
 
   #   - images/a_dot_ham.jpeg
 
