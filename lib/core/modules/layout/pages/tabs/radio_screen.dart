@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:islami/api/api_manager.dart';
 
 import 'package:islami/core/model/radio_data_model/radio_data_model.dart';
+import 'package:islami/core/model/resiters_data_model/resiters_data_model.dart';
 import 'package:islami/core/themes/colors.dart';
 import 'package:islami/provider/radio_manager_provider.dart';
 import 'package:provider/provider.dart';
@@ -224,29 +225,61 @@ class _RadioWidgetState extends State<RadioWidget> {
   }
 }
 
-class ResiterWidget extends StatelessWidget {
+class ResiterWidget extends StatefulWidget {
   const ResiterWidget({super.key});
 
   @override
+  State<ResiterWidget> createState() => _ResiterWidgetState();
+}
+
+class _ResiterWidgetState extends State<ResiterWidget> {
+  late Future<ResitersDataModel> future;
+  @override
+  void initState() {
+    future = ApiManager.getResiterData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List dataResiterWidget = [
-      'Ibrahim Al-Akdar',
-      'Ahmed Al-trabulsi',
-      'Addokali Mohammad Alalim',
-      'Al-Qaria Yassen',
-    ];
-    return ListView.builder(
-      // shrinkWrap: true,
-      // physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            CustomCadRadio(text: dataResiterWidget[index], url: ''),
-            SizedBox(height: 12),
-          ],
-        );
+    return FutureBuilder<ResitersDataModel>(
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Column(
+            children: [
+              Text(snapshot.error.toString()),
+              TextButton(
+                onPressed: () {
+                  ApiManager.getResiterData();
+                  setState(() {});
+                },
+                child: Text('Refresh'),
+              ),
+            ],
+          );
+        } else {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  //https://server6.mp3quran.net/akdr/018.mp3
+                  //https://server6.mp3quran.net/akdr/
+                  CustomCadRadio(
+                    text: snapshot.data!.reciters?[index].name ?? '',
+                    url:
+                        "${snapshot.data!.reciters?[index].moshaf?[0].server}018.mp3",
+                  ),
+                  SizedBox(height: 12),
+                ],
+              );
+            },
+            itemCount: snapshot.data?.reciters?.length ?? 0,
+          );
+        }
       },
-      itemCount: dataResiterWidget.length,
     );
   }
 }
