@@ -33,7 +33,8 @@ class _LayoutScreenState extends State<LayoutScreen> {
       body: IndexedStack(index: index, children: screens),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.goldColor,
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
+
         currentIndex: index,
 
         selectedFontSize: 15,
@@ -58,6 +59,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
   getItem({required String icon, required String label}) {
     return BottomNavigationBarItem(
+      backgroundColor: AppColors.goldColor,
       activeIcon: Container(
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 22),
         decoration: BoxDecoration(

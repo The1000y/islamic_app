@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:islami/core/constans/ids.dart';
 import 'package:islami/core/widgets/custom_images.dart';
+import 'package:islami/utilles/utilles.dart';
 // import 'package:islami/core/modules/intro/screen/intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -116,19 +117,17 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void delayNaviagtor() {
+  void delayNaviagtor() async {
+    var isFirstTime = await CasheData.getOnBoardingScreen();
+    print(isFirstTime);
     Future.delayed(Duration(seconds: 4), () {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, AppId.introScreenid);
-      // Navigator.pushReplacement(
-      //   // ignore: use_build_context_synchronously
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) {
-      //       return IntroScreen();
-      //     },
-      //   ),
-      // );
+      if (isFirstTime) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(context, AppId.introScreenid);
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(context, AppId.layoutScreenId);
+      }
     });
   }
 }

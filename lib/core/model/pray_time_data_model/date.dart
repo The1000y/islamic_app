@@ -1,0 +1,44 @@
+import 'package:equatable/equatable.dart';
+
+import 'gregorian.dart';
+import 'hijri.dart';
+
+class Date extends Equatable {
+  final String? readable;
+  final String? timestamp;
+  final Hijri? hijri;
+  final Gregorian? gregorian;
+
+  const Date({this.readable, this.timestamp, this.hijri, this.gregorian});
+
+  factory Date.fromDateJson(Map<String, dynamic> json) {
+    return Date(
+      readable: json['readable'] as String?,
+      timestamp: json['timestamp'] as String?,
+      hijri: json['hijri'] == null
+          ? null
+          : Hijri.fromCode200StatusOkDataTimingsFajr0422Sunrise0604Dhuhr1301Asr1638Sunset1957Maghrib1957Isha2128Imsak0412Midnight0101Firstthird2320Lastthird0242DateReadable16Jul2024Timestamp1721102400HijriDate10011446FormatDdMmYyyyDay10WeekdayEnAlThalaataArMonthNumber1EnMuArramArDays29Year1446DesignationAbbreviatedAhExpandedAnnoHegiraeHolidaysAshuraUrsOfShaykhShamsuddinHabBAllahUrsOfShaykhAbAlHassanAlKharqNiBirthOfImamRBbaniAhmadAlFRuqiAsSirhindiAdjustedHolidaysMethodHjCoSaGregorianDate16072024FormatDdMmYyyyDay16WeekdayEnTuesdayMonthNumber7EnJulyYear2024DesignationAbbreviatedAdExpandedAnnoDominiLunarSightingFalseMetaLatitude88888888Longitude77777777TimezoneAfricaCairoMethodId5NameEgyptianGeneralAuthorityOfSurveyParamsFajr195Isha175LocationLatitude300444196Longitude312357116LatitudeAdjustmentMethodAngleBasedMidnightModeStandardSchoolStandardOffsetImsak0Fajr0Sunrise0Dhuhr0Asr0Maghrib0Sunset0Isha0Midnight0(
+              json['hijri'] as Map<String, dynamic>,
+            ),
+      gregorian: json['gregorian'] == null
+          ? null
+          : Gregorian.fromCode200StatusOkDataTimingsFajr0422Sunrise0604Dhuhr1301Asr1638Sunset1957Maghrib1957Isha2128Imsak0412Midnight0101Firstthird2320Lastthird0242DateReadable16Jul2024Timestamp1721102400HijriDate10011446FormatDdMmYyyyDay10WeekdayEnAlThalaataArMonthNumber1EnMuArramArDays29Year1446DesignationAbbreviatedAhExpandedAnnoHegiraeHolidaysAshuraUrsOfShaykhShamsuddinHabBAllahUrsOfShaykhAbAlHassanAlKharqNiBirthOfImamRBbaniAhmadAlFRuqiAsSirhindiAdjustedHolidaysMethodHjCoSaGregorianDate16072024FormatDdMmYyyyDay16WeekdayEnTuesdayMonthNumber7EnJulyYear2024DesignationAbbreviatedAdExpandedAnnoDominiLunarSightingFalseMetaLatitude88888888Longitude77777777TimezoneAfricaCairoMethodId5NameEgyptianGeneralAuthorityOfSurveyParamsFajr195Isha175LocationLatitude300444196Longitude312357116LatitudeAdjustmentMethodAngleBasedMidnightModeStandardSchoolStandardOffsetImsak0Fajr0Sunrise0Dhuhr0Asr0Maghrib0Sunset0Isha0Midnight0(
+              json['gregorian'] as Map<String, dynamic>,
+            ),
+    );
+  }
+
+  Map<String, dynamic> toDateJson() {
+    return {
+      'readable': readable,
+      'timestamp': timestamp,
+      'hijri': hijri
+          ?.toCode200StatusOkDataTimingsFajr0422Sunrise0604Dhuhr1301Asr1638Sunset1957Maghrib1957Isha2128Imsak0412Midnight0101Firstthird2320Lastthird0242DateReadable16Jul2024Timestamp1721102400HijriDate10011446FormatDdMmYyyyDay10WeekdayEnAlThalaataArMonthNumber1EnMuArramArDays29Year1446DesignationAbbreviatedAhExpandedAnnoHegiraeHolidaysAshuraUrsOfShaykhShamsuddinHabBAllahUrsOfShaykhAbAlHassanAlKharqNiBirthOfImamRBbaniAhmadAlFRuqiAsSirhindiAdjustedHolidaysMethodHjCoSaGregorianDate16072024FormatDdMmYyyyDay16WeekdayEnTuesdayMonthNumber7EnJulyYear2024DesignationAbbreviatedAdExpandedAnnoDominiLunarSightingFalseMetaLatitude88888888Longitude77777777TimezoneAfricaCairoMethodId5NameEgyptianGeneralAuthorityOfSurveyParamsFajr195Isha175LocationLatitude300444196Longitude312357116LatitudeAdjustmentMethodAngleBasedMidnightModeStandardSchoolStandardOffsetImsak0Fajr0Sunrise0Dhuhr0Asr0Maghrib0Sunset0Isha0Midnight0(),
+      'gregorian': gregorian
+          ?.toCode200StatusOkDataTimingsFajr0422Sunrise0604Dhuhr1301Asr1638Sunset1957Maghrib1957Isha2128Imsak0412Midnight0101Firstthird2320Lastthird0242DateReadable16Jul2024Timestamp1721102400HijriDate10011446FormatDdMmYyyyDay10WeekdayEnAlThalaataArMonthNumber1EnMuArramArDays29Year1446DesignationAbbreviatedAhExpandedAnnoHegiraeHolidaysAshuraUrsOfShaykhShamsuddinHabBAllahUrsOfShaykhAbAlHassanAlKharqNiBirthOfImamRBbaniAhmadAlFRuqiAsSirhindiAdjustedHolidaysMethodHjCoSaGregorianDate16072024FormatDdMmYyyyDay16WeekdayEnTuesdayMonthNumber7EnJulyYear2024DesignationAbbreviatedAdExpandedAnnoDominiLunarSightingFalseMetaLatitude88888888Longitude77777777TimezoneAfricaCairoMethodId5NameEgyptianGeneralAuthorityOfSurveyParamsFajr195Isha175LocationLatitude300444196Longitude312357116LatitudeAdjustmentMethodAngleBasedMidnightModeStandardSchoolStandardOffsetImsak0Fajr0Sunrise0Dhuhr0Asr0Maghrib0Sunset0Isha0Midnight0(),
+    };
+  }
+
+  @override
+  List<Object?> get props => [readable, timestamp, hijri, gregorian];
+}

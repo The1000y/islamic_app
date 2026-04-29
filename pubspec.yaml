@@ -36,16 +36,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   animate_do: 
   flutter_native_splash: 
+  auto_size_text: ^3.0.0
   equatable: ^2.0.8
   flutter_svg: 
   audioplayers: ^6.6.0
   google_fonts: 
-  http: ^1.6.0
-  shared_preferences: 
+  http: ^1.6.0 
   carousel_slider: 
   custom_sliding_segmented_control: 
   provider: ^6.1.5+1
   just_audio: ^0.10.5
+  intl: ^0.20.2
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,7 @@ flutter:
     - assets/suras/
     - assets/hadeeth/
     - assets/azkar/
+    - assets/audio/
 
   #   - images/a_dot_ham.jpeg
 

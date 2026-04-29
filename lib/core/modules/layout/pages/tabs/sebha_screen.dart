@@ -82,8 +82,8 @@ class _SebhaScreenState extends State<SebhaScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 86,
-                    width: 145,
+                    height: 60,
+                    width: 120,
                     child: Image.asset('assets/images/headsebha.png'),
                   ),
                   Stack(
@@ -108,7 +108,7 @@ class _SebhaScreenState extends State<SebhaScreen> {
                             angle: rotateDegree * math.pi / 12.0,
                             child: Center(
                               child: SizedBox(
-                                height: 381,
+                                height: 300,
                                 width: 379,
                                 child: Image.asset(
                                   'assets/images/SebhaBody 1.png',

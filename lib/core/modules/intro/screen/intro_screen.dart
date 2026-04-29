@@ -6,10 +6,11 @@ import 'package:islami/core/model/islamiModel.dart';
 import 'package:islami/core/themes/colors.dart';
 
 import 'package:islami/core/widgets/header_page_view.dart';
+import 'package:islami/utilles/utilles.dart';
 
 // ignore: must_be_immutable
 class IntroScreen extends StatefulWidget {
-  IntroScreen({super.key});
+  const IntroScreen({super.key});
   static String id = AppId.introScreenid;
 
   @override
@@ -119,7 +120,8 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
 
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      await CasheData.setOnBoardingScreen();
                       if (currentIndex == 4) {
                         Navigator.pushNamedAndRemoveUntil(
                           context,

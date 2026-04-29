@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:islami/core/model/pray_time_data_model/pray_time_data_model.dart';
 // import 'package:http/http.dart' as http;
 import 'package:islami/core/model/radio_data_model/radio_data_model.dart';
 import 'package:islami/core/model/resiters_data_model/resiters_data_model.dart';
@@ -29,6 +31,20 @@ class ApiManager {
       return ResitersDataModel.fromJsonResitersDataModel(data);
     } on Exception catch (e) {
       throw e;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<PrayTimeDataModel> getPrayTime() async {
+    try {
+      String timeNow = DateFormat('dd-MM-yyyy').format(DateTime.now());
+      Uri url = Uri.parse(
+        'https://api.aladhan.com/v1/timingsByCity/$timeNow?city=suez&country=egypt',
+      );
+      var response = await http.get(url);
+      var responseDate = jsonDecode(response.body);
+      return PrayTimeDataModel.fromPrayTimeDataModelJson(responseDate);
     } catch (e) {
       throw e;
     }

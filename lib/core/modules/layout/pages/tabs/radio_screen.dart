@@ -74,7 +74,7 @@ class _RadioScreenState extends State<RadioScreen> {
 
                       CustomSlidingSegmentedControl<int>(
                         controller: controller,
-                        fixedWidth: 190,
+                        fixedWidth: 150,
                         innerPadding: EdgeInsets.zero,
                         dividerSettings: DividerSettings(
                           indent: 12,

@@ -31,22 +31,23 @@ class HadeethDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          children: [
-            Padding(padding: const EdgeInsets.all(16)),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(padding: const EdgeInsets.all(16)),
 
-            SizedBox(height: 15),
-            SingleChildScrollView(
-              child: Text(
+              SizedBox(height: 15),
+              Text(
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 hadeethData.body,
                 style: TextStyle(fontSize: 25, color: AppColors.goldColor),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

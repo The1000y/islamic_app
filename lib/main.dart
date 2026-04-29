@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:islami/core/modules/azkar_details/azkar_details.dart';
 import 'package:islami/core/modules/hadeeth_details/page/hadeeth_details_page.dart';
 import 'package:islami/core/modules/intro/screen/intro_screen.dart';
 import 'package:islami/core/modules/layout/pages/layout_screen.dart';
@@ -8,7 +9,9 @@ import 'package:islami/core/modules/splash/screen/splash_screen.dart';
 import 'package:islami/provider/radio_manager_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => RadioManagerProvider(),
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
         IntroScreen.id: (context) => IntroScreen(),
         SoraDetailsScreen.id: (context) => SoraDetailsScreen(),
         HadeethDetailsScreen.id: (context) => HadeethDetailsScreen(),
+        AzkarDetails.id: (context) => AzkarDetails(),
       },
       // initialRoute: SplashScreen.id,
     );
