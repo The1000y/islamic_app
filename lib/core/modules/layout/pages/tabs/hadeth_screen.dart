@@ -110,7 +110,7 @@ class _HadethScreenState extends State<HadethScreen> {
                                             child: Text(
                                               i.title,
                                               style: TextStyle(
-                                                fontSize: 25,
+                                                fontSize: 30,
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColors.blackColor,
                                               ),
@@ -128,7 +128,7 @@ class _HadethScreenState extends State<HadethScreen> {
                                     SizedBox(height: 20),
                                     Center(
                                       child: Text(
-                                        maxLines: 13,
+                                        maxLines: 12,
                                         overflow: TextOverflow.ellipsis,
                                         textDirection: TextDirection.rtl,
                                         textAlign: TextAlign.center,
